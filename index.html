@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Timetable Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= LOGIN PAGE ================= -->
+
+<div id="loginPage" class="login-page">
+
+    <div class="login-left">
+        <h1>Smart Timetable</h1>
+        <h1>Generator</h1>
+
+        <p>
+            Create conflict-free academic timetables
+            quickly and efficiently.
+        </p>
+    </div>
+
+    <div class="login-box">
+
+        <h2>Welcome Back!</h2>
+        <p>Login to continue</p>
+
+        <input type="email" id="email" placeholder="Email ID">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Login</button>
+
+        <div class="login-options">
+            <button onclick="adminLogin()">Admin Login</button>
+            <button onclick="facultyLogin()">Faculty Login</button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= MAIN WEBSITE ================= -->
+
+<div id="mainWebsite" class="main-website">
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+            <h2>Smart</h2>
+            <h2>Timetable</h2>
+        </div>
+
+        <button class="nav-btn active"
+                onclick="showPage('dashboard', this)">
+            🏠 Dashboard
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('faculty', this)">
+            👨‍🏫 Faculty
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('subjects', this)">
+            📚 Subjects
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('classes', this)">
+            🎓 Classes
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('rooms', this)">
+            🏫 Classrooms
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('timeslots', this)">
+            🕐 Time Slots
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('generate', this)">
+            ⚙️ Generate Timetable
+        </button>
+
+        <button class="nav-btn"
+                onclick="showPage('timetable', this)">
+            📅 View Timetable
+        </button>
+
+        <div class="sidebar-bottom">
+            <button onclick="logout()">🚪 Logout</button>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="content">
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+            <div>
+                <h2 id="pageTitle">Dashboard</h2>
+                <p>Smart Timetable Generator</p>
+            </div>
+
+            <div class="admin-name">
+                👤 Admin
+            </div>
+        </header>
+
+
+        <!-- ================= DASHBOARD ================= -->
+
+        <section id="dashboard" class="page-section active-section">
+
+            <h1>Dashboard</h1>
+            <p class="section-subtitle">
+                Welcome to Smart Timetable Generator
+            </p>
+
+            <div class="cards">
+
+                <div class="card">
+                    <div class="card-icon">👨‍🏫</div>
+                    <h3 id="facultyCount">0</h3>
+                    <p>Faculty</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3 id="subjectCount">0</h3>
+                    <p>Subjects</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎓</div>
+                    <h3 id="classCount">0</h3>
+                    <p>Classes</p>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🏫</div>
+                    <h3 id="roomCount">0</h3>
+                    <p>Classrooms</p>
+                </div>
+
+            </div>
+
+
+            <div class="welcome-box">
+
+                <h2>Quick Actions</h2>
+
+                <div class="quick-actions">
+
+                    <button onclick="showPage('faculty')">
+                        + Add Faculty
+                    </button>
+
+                    <button onclick="showPage('subjects')">
+                        + Add Subject
+                    </button>
+
+                    <button onclick="showPage('classes')">
+                        + Add Class
+                    </button>
+
+                    <button onclick="showPage('generate')">
+                        Generate Timetable
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FACULTY ================= -->
+
+        <section id="faculty" class="page-section">
+
+            <h1>Faculty Management</h1>
+            <p class="section-subtitle">
+                Add and manage faculty members
+            </p>
+
+            <div class="form-box">
+
+                <h2>Add Faculty</h2>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="facultyName"
+                        placeholder="Faculty Name">
+
+                    <input
+                        type="text"
+                        id="facultyId"
+                        placeholder="Faculty ID">
+
+                    <input
+                        type="text"
+                        id="department"
+                        placeholder="Department">
+
+                </div>
+
+                <button class="primary-btn"
+                        onclick="addFaculty()">
+                    Add Faculty
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <div class="table-heading">
+                    <h2>Faculty List</h2>
+                    <span id="facultyCountText">0 Faculty</span>
+                </div>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Faculty ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="facultyTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SUBJECTS ================= -->
+
+        <section id="subjects" class="page-section">
+
+            <h1>Subject Management</h1>
+            <p class="section-subtitle">
+                Add subjects for the timetable
+            </p>
+
+            <div class="form-box">
+
+                <h2>Add Subject</h2>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="subjectName"
+                        placeholder="Subject Name">
+
+                    <input
+                        type="text"
+                        id="subjectCode"
+                        placeholder="Subject Code">
+
+                    <input
+                        type="number"
+                        id="subjectHours"
+                        placeholder="Hours per Week">
+
+                </div>
+
+                <button class="primary-btn"
+                        onclick="addSubject()">
+                    Add Subject
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Subject List</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Hours/Week</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="subjectTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= CLASSES ================= -->
+
+        <section id="classes" class="page-section">
+
+            <h1>Class & Section Management</h1>
+
+            <div class="form-box">
+
+                <h2>Add Class</h2>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="className"
+                        placeholder="Class Name">
+
+                    <input
+                        type="text"
+                        id="sectionName"
+                        placeholder="Section">
+
+                    <input
+                        type="number"
+                        id="studentCount"
+                        placeholder="Number of Students">
+
+                </div>
+
+                <button class="primary-btn"
+                        onclick="addClass()">
+                    Add Class
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Class List</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Class</th>
+                            <th>Section</th>
+                            <th>Students</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="classTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= ROOMS ================= -->
+
+        <section id="rooms" class="page-section">
+
+            <h1>Classroom Management</h1>
+
+            <div class="form-box">
+
+                <h2>Add Classroom</h2>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="roomNumber"
+                        placeholder="Room Number">
+
+                    <input
+                        type="number"
+                        id="roomCapacity"
+                        placeholder="Capacity">
+
+                    <input
+                        type="text"
+                        id="roomType"
+                        placeholder="Room Type">
+
+                </div>
+
+                <button class="primary-btn"
+                        onclick="addRoom()">
+                    Add Classroom
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Classroom List</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Room</th>
+                            <th>Capacity</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="roomTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TIME SLOTS ================= -->
+
+        <section id="timeslots" class="page-section">
+
+            <h1>Time Slot Management</h1>
+
+            <div class="form-box">
+
+                <h2>Add Time Slot</h2>
+
+                <div class="form-grid">
+
+                    <input
+                        type="text"
+                        id="day"
+                        placeholder="Day">
+
+                    <input
+                        type="time"
+                        id="startTime">
+
+                    <input
+                        type="time"
+                        id="endTime">
+
+                </div>
+
+                <button class="primary-btn"
+                        onclick="addTimeSlot()">
+                    Add Time Slot
+                </button>
+
+            </div>
+
+
+            <div class="table-box">
+
+                <h2>Time Slots</h2>
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Day</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="timeTable">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= GENERATE ================= -->
+
+        <section id="generate" class="page-section">
+
+            <h1>Generate Timetable</h1>
+
+            <div class="generate-box">
+
+                <div class="generate-icon">
+                    📅
+                </div>
+
+                <h2>Ready to Generate?</h2>
+
+                <p>
+                    The system will create a timetable
+                    based on faculty, subjects, classes,
+                    classrooms and available time slots.
+                </p>
+
+                <button class="generate-btn"
+                        onclick="generateTimetable()">
+                    ⚙ Generate Timetable
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TIMETABLE ================= -->
+
+        <section id="timetable" class="page-section">
+
+            <h1>Generated Timetable</h1>
+
+            <p class="section-subtitle">
+                Your generated timetable will appear here.
+            </p>
+
+            <div class="timetable-box">
+
+                <table class="timetable">
+
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Monday</th>
+                            <th>Tuesday</th>
+                            <th>Wednesday</th>
+                            <th>Thursday</th>
+                            <th>Friday</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>9:00 - 10:00</td>
+                            <td>C Programming</td>
+                            <td>Mathematics</td>
+                            <td>Physics</td>
+                            <td>Java</td>
+                            <td>English</td>
+                        </tr>
+
+                        <tr>
+                            <td>10:00 - 11:00</td>
+                            <td>Mathematics</td>
+                            <td>Java</td>
+                            <td>C Programming</td>
+                            <td>Physics</td>
+                            <td>Data Structures</td>
+                        </tr>
+
+                        <tr>
+                            <td>11:00 - 12:00</td>
+                            <td>Physics</td>
+                            <td>English</td>
+                            <td>Java</td>
+                            <td>Mathematics</td>
+                            <td>C Programming</td>
+                        </tr>
+
+                        <tr>
+                            <td>1:00 - 2:00</td>
+                            <td>Java</td>
+                            <td>Physics</td>
+                            <td>English</td>
+                            <td>Data Structures</td>
+                            <td>Mathematics</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
